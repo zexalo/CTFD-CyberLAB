@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#version : 1.0
+#version : 1.2
 
 error_usage(){
     echo "ERROR : argument not found or to mutch!" >&2
@@ -35,14 +35,26 @@ fi
 
 
 if [[ -x $PWD/CTFd/prepare.sh ]]; then
-	$PWD/CTFd/./prepare.sh
-
+    cd $PWD/CTFd/
+	./prepare.sh
+    deg=$?
+        
 	else
-		sudo apt-get update
-		sudo DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential python-dev python-pip libffi-dev
-		pip install -r requirements.txt
+        sudo chmod 755 $PWD/CTFd/prepare.sh
+        cd $PWD/CTFd/
+        ./prepare.sh
+        deg=$?
+        
+            fi
+        if [[ "$deg" ]]; then
+        sudo apt-get update
+        sudo DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential python-dev python-pip libffi-dev
+        pip install -r requirements.txt
 
-fi
+        fi
+
+
+
 
 # script for the choose , run dockercompose or whit dockerhub
 
