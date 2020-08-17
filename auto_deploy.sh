@@ -29,24 +29,32 @@ elif [[ $1 = "-h" ]]; then
 		else
 			error_tenant
 fi
- 
-#need to creat script to install docker befor the requirements
-#check if docker is present , else install 
 
+which docker 
+sult=$?
+#echo "$sult"
+if [[ "$sult" ]]; then
+    #add repo dokcer ?
+    sudo apt update
+    sudo apt install docker-ce
+fi
+
+#check befor ? 
 
 if [[ -x $PWD/CTFd/prepare.sh ]]; then
     cd $PWD/CTFd/
 	./prepare.sh
     deg=$?
-        
+    #echo "$deg"        
 	else
         sudo chmod 755 $PWD/CTFd/prepare.sh
         cd $PWD/CTFd/
         ./prepare.sh
         deg=$?
-        
+        #echo "$deg"
             fi
         if [[ "$deg" ]]; then
+        #cd $PWD/CTFd/
         sudo apt-get update
         sudo DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential python-dev python-pip libffi-dev
         pip install -r requirements.txt
