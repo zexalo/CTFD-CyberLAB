@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version=1.4
+version=1.6
 
 error_usage(){
     echo "ERROR : argument not found or to mutch!" >&2
@@ -67,9 +67,21 @@ if [[ -x $PWD/CTFd/prepare.sh ]]; then
         fi
 
 if [[ "$result" == "1" ]]; then
-    #statement
+    cd $PWD/CTFd
+    docker-compose up
+elif [[ "$result" == "2" ]]; then
+    docker run -p 8080:8080 -it ctfd/ctfd
+else
+ exit
 fi
+ zoli=$?
 
+ if [[ "$zoli" ]]; then
+      echo " ERROR : please try again with another option "
+      exit 
+  fi 
+ 
+ firefox http://localhost:8080/
 
 # script for the choose , run dockercompose or whit dockerhub
 
